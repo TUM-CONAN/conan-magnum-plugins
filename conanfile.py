@@ -174,9 +174,9 @@ class LibnameConan(ConanFile):
         # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
-        # tools.replace_in_file(os.path.join(self._source_subfolder, "src", "Magnum", "Platform", "CMakeLists.txt"),
-        #     "target_link_libraries(MagnumGlfwApplication PUBLIC Magnum GLFW::GLFW)",
-        #     "target_link_libraries(MagnumGlfwApplication PUBLIC Magnum CONAN_PKG::glfw)")
+        tools.replace_in_file(os.path.join(self._source_subfolder, "src", "MagnumPlugins", "AssimpImporter", "CMakeLists.txt"),
+            "target_link_libraries(AssimpImporter PUBLIC Magnum::Trade Assimp::Assimp)",
+            "target_link_libraries(AssimpImporter PUBLIC Magnum::Trade CONAN_PKG::assimp)")
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -203,6 +203,7 @@ class LibnameConan(ConanFile):
 
     def build(self):
         cmake = self._configure_cmake()
+        cmake.verbose = True
         cmake.build()
 
     def package(self):
