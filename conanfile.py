@@ -79,14 +79,14 @@ class LibnameConan(ConanFile):
         "with_miniexrimageconverter": False,
         "with_openddl": False,
         "with_opengeximporter": False,
-        "with_pngimageconverter": False,
-        "with_pngimporter": False,
+        "with_pngimageconverter": True,
+        "with_pngimporter": True,
         "with_stanfordimporter": False,
         "with_stbimageconverter": True,
         "with_stbimageimporter": True,
         "with_stbtruetypefont": True,
         "with_stbvorbisaudioimporter": False,
-        "with_tinygltfimporter": False,
+        "with_tinygltfimporter": True,
     }
 
     # Custom attributes for Bincrafters recipe conventions
