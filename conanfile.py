@@ -72,7 +72,7 @@ class LibnameConan(ConanFile):
         "with_drflacaudioimporter": False,
         "with_drwavaudioimporter": False,
         "with_faad2audioimporter": False,
-        "with_freetypefont": False,
+        "with_freetypefont": True,
         "with_harfbuzzfont": False,
         "with_jpegimageconverter": False,
         "with_jpegimporter": False,
@@ -82,9 +82,9 @@ class LibnameConan(ConanFile):
         "with_pngimageconverter": False,
         "with_pngimporter": False,
         "with_stanfordimporter": False,
-        "with_stbimageconverter": False,
-        "with_stbimageimporter": False,
-        "with_stbtruetypefont": False,
+        "with_stbimageconverter": True,
+        "with_stbimageimporter": True,
+        "with_stbtruetypefont": True,
         "with_stbvorbisaudioimporter": False,
         "with_tinygltfimporter": False,
     }
@@ -94,7 +94,9 @@ class LibnameConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     requires = (
-        "magnum/2019.01@camposs/stable"
+        "magnum/2019.01@camposs/stable",
+        "freetype/[>=2.9.1]@bincrafters/stable",
+        "zlib/1.2.11@camposs/stable",  # overwrite bincrafters default
     )
 
     def system_package_architecture(self):
@@ -117,36 +119,32 @@ class LibnameConan(ConanFile):
                 return '.x86_64'
         return ""
 
-    # def system_requirements(self):
-    #     # Install required OpenGL stuff on linux
-    #     if tools.os_info.is_linux:
-    #         if tools.os_info.with_apt:
-    #             installer = tools.SystemPackageTool()
+    def system_requirements(self):
+        # Install required dependent packages stuff on linux
+        if tools.os_info.is_linux:
+            if tools.os_info.with_apt:
+                installer = tools.SystemPackageTool()
 
-    #             packages = []
-    #             if self.options.target_gl:
-    #                 packages.append("libgl1-mesa-dev")
-    #             if self.options.target_gles:
-    #                 packages.append("libgles1-mesa-dev")
+                packages = []
+                if self.options.with_assimpimporter:
+                    packages.append("libdevil-dev")
 
-    #             arch_suffix = self.system_package_architecture()
-    #             for package in packages:
-    #                 installer.install("%s%s" % (package, arch_suffix))
+                arch_suffix = self.system_package_architecture()
+                for package in packages:
+                    installer.install("%s%s" % (package, arch_suffix))
 
-    #         elif tools.os_info.with_yum:
-    #             installer = tools.SystemPackageTool()
+            elif tools.os_info.with_yum:
+                installer = tools.SystemPackageTool()
 
-    #             arch_suffix = self.system_package_architecture()
-    #             packages = []
-    #             if self.options.target_gl:
-    #                 packages.append("mesa-libGL-devel")
-    #             if self.options.target_gles:
-    #                 packages.append("mesa-libGLES-devel")
+                # arch_suffix = self.system_package_architecture()
+                # packages = []
+                # if self.options.target_gl:
+                #     packages.append("libdevil-dev")
 
-    #             for package in packages:
-    #                 installer.install("%s%s" % (package, arch_suffix))
-    #         else:
-    #             self.output.warn("Could not determine package manager, skipping Linux system requirements installation.")
+                # for package in packages:
+                #     installer.install("%s%s" % (package, arch_suffix))
+            else:
+                self.output.warn("Could not determine package manager, skipping Linux system requirements installation.")
 
     def config_options(self):
         if self.settings.os == 'Windows':
@@ -165,6 +163,8 @@ class LibnameConan(ConanFile):
     def requirements(self):
         if self.options.with_assimpimporter:
             self.requires("assimp/4.1.0@camposs/stable")
+        if self.options.with_harfbuzzfont:
+            self.requires("harfbuzz/[>=2.4.0]@bincrafters/stable")
 
     def source(self):
         source_url = "https://github.com/mosra/magnum-plugins"
