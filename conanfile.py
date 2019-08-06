@@ -32,7 +32,7 @@ class LibnameConan(ConanFile):
     author = "ulrich eck (forked on github)"
     license = "MIT"  # Indicates license type of the packaged library; please use SPDX Identifiers https://spdx.org/licenses/
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "patches/macos_jsonhpp_fix.diff"]
     generators = "cmake"
     short_paths = True  # Some folders go out of the 260 chars path length scope (windows)
 
@@ -202,6 +202,7 @@ class LibnameConan(ConanFile):
         return cmake
 
     def build(self):
+        tools.patch(self._source_subfolder, "patches/macos_jsonhpp_fix.diff")
         cmake = self._configure_cmake()
         cmake.verbose = True
         cmake.build()
