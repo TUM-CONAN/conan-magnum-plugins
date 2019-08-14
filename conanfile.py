@@ -156,8 +156,9 @@ class LibnameConan(ConanFile):
 
         # To fix issue with resource management, see here:
         # https://github.com/mosra/magnum/issues/304#issuecomment-451768389
-        if self.options.shared:
-            self.options['magnum'].add_option('shared', True)
+        self.options.shared = not self.options['magnum'].build_plugins_static
+        # if self.options.shared:
+        #     self.options['magnum'].add_option('shared', True)
 
         if self.options.with_assimpimporter:
             self.options['magnum'].add_option('with_anyimageimporter', True)
