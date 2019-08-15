@@ -40,6 +40,7 @@ class LibnameConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False], 
+        "build_plugins_static": [True, False], 
         "fPIC": [True, False],
         "with_assimpimporter": [True, False],
         "with_ddsimporter": [True, False],
@@ -64,7 +65,8 @@ class LibnameConan(ConanFile):
         "with_tinygltfimporter": [True, False],
     }
     default_options = {
-        "shared": False, 
+        "shared": False,
+        "build_plugins_static": False,
         "fPIC": True,
         "with_assimpimporter": True,
         "with_ddsimporter": False,
@@ -156,9 +158,8 @@ class LibnameConan(ConanFile):
 
         # To fix issue with resource management, see here:
         # https://github.com/mosra/magnum/issues/304#issuecomment-451768389
-        self.options.shared = not self.options['magnum'].build_plugins_static
-        # if self.options.shared:
-        #     self.options['magnum'].add_option('shared', True)
+        self.options.build_plugins_static = self.options['magnum'].build_plugins_static
+        self.options.shared = self.options['magnum'].shared
 
         if self.options.with_assimpimporter:
             self.options['magnum'].add_option('with_anyimageimporter', True)
