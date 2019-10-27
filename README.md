@@ -11,14 +11,14 @@ The packages generated with this **conanfile** can be found on [CampAR](https://
 
 ### Basic setup
 
-    $ conan install magnum-plugins/2019.01@camposs/stable
+    $ conan install magnum-plugins/2019.10@camposs/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    magnum-plugins/2019.01@camposs/stable
+    magnum-plugins/2019.10@camposs/stable
 
     [generators]
     cmake
