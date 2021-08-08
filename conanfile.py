@@ -62,6 +62,7 @@ class LibnameConan(ConanFile):
         "with_stbimageimporter": [True, False],
         "with_stbtruetypefont": [True, False],
         "with_stbvorbisaudioimporter": [True, False],
+        "with_stlimporter": [True, False],
         "with_tinygltfimporter": [True, False],
     }
     default_options = {
@@ -88,6 +89,7 @@ class LibnameConan(ConanFile):
         "with_stbimageimporter": False,
         "with_stbtruetypefont": False,
         "with_stbvorbisaudioimporter": False,
+        "with_stlimporter": False,
         "with_tinygltfimporter": False,
     }
 
