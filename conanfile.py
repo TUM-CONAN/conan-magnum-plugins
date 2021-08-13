@@ -160,10 +160,6 @@ class LibnameConan(ConanFile):
 
         # To fix issue with resource management, see here:
         # https://github.com/mosra/magnum/issues/304#issuecomment-451768389
-        bps = self.options['magnum'].build_plugins_static
-        self.options.build_plugins_static = bps if bps is not None else True
-        shared = self.options['magnum'].shared
-        self.options.shared = shared if shared is not None else False
 
         if self.options.with_assimpimporter:
             self.options['magnum'].add_option('with_anyimageimporter', True)
