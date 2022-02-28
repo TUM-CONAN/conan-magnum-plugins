@@ -179,6 +179,9 @@ class LibnameConan(ConanFile):
         tools.replace_in_file(os.path.join(self._source_subfolder, "src", "MagnumPlugins", "AssimpImporter", "CMakeLists.txt"),
             "target_link_libraries(AssimpImporter PUBLIC Magnum::Trade Assimp::Assimp",
             "target_link_libraries(AssimpImporter PUBLIC Magnum::Trade CONAN_PKG::assimp")
+        tools.replace_in_file(os.path.join(self._source_subfolder, "src", "MagnumPlugins", "AssimpImporter", "CMakeLists.txt"),
+            "find_package(Assimp REQUIRED)",
+            "")
 
     def _configure_cmake(self):
         cmake = CMake(self)
