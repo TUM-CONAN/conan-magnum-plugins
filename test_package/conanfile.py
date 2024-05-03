@@ -20,13 +20,13 @@ class TestPackageConan(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         corrade_root = self.dependencies["corrade"].package_folder
-        tc.variables["Corrade_ROOT"] = corrade_root
+        tc.variables["Corrade_ROOT"] = corrade_root.replace("\\", "/")
         magnum_root = self.dependencies["magnum"].package_folder
-        tc.variables["Magnum_ROOT"] = magnum_root
+        tc.variables["Magnum_ROOT"] = magnum_root.replace("\\", "/")
         magnum_plugins_root = self.dependencies["magnum-plugins"].package_folder
-        tc.variables["MagnumPlugins_ROOT"] = magnum_plugins_root
+        tc.variables["MagnumPlugins_ROOT"] = magnum_plugins_root.replace("\\", "/")
         assimp_root = self.dependencies["assimp"].package_folder
-        tc.variables["Assimp_ROOT"] = assimp_root
+        tc.variables["Assimp_ROOT"] = assimp_root.replace("\\", "/")
         self.output.info("Assimp_ROOT: {}".format(assimp_root))
         tc.generate()
 

@@ -110,10 +110,14 @@ class LibnameConan(ConanFile):
         if self.options.with_assimpimporter:
             self.options['magnum']['with_anyimageimporter'] = True
 
-    def requirements(self):
-        self.requires("magnum/2020.06@camposs/stable")
         if self.options.with_assimpimporter:
-            self.requires("assimp/5.2.2")
+            self.options["assimp"].shared = not self.options.build_plugins_static
+            self.options["pugixml"].shared = not self.options.build_plugins_static
+
+    def requirements(self):
+        self.requires("magnum/2020.06@camposs/stable", transitive_libs=True, transitive_headers=True, visible=True)
+        if self.options.with_assimpimporter:
+            self.requires("assimp/5.2.2", transitive_libs=True, visible=True)
 
     def export(self):
         update_conandata(self, {"sources": {
@@ -152,11 +156,11 @@ class LibnameConan(ConanFile):
         add_cmake_option("BUILD_STATIC", not self.options.shared)
         add_cmake_option("BUILD_STATIC_PIC", not self.options.shared and self.options.get_safe("fPIC"))
         corrade_root = self.dependencies["corrade"].package_folder
-        tc.variables["Corrade_ROOT"] = corrade_root
+        tc.variables["Corrade_ROOT"] = corrade_root.replace("\\", "/")
         magnum_root = self.dependencies["magnum"].package_folder
-        tc.variables["Magnum_ROOT"] = magnum_root
+        tc.variables["Magnum_ROOT"] = magnum_root.replace("\\", "/")
         assimp_root = self.dependencies["assimp"].package_folder
-        tc.variables["Assimp_ROOT"] = assimp_root
+        tc.variables["Assimp_ROOT"] = assimp_root.replace("\\", "/")
 
         tc.generate()
 
