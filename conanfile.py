@@ -39,7 +39,7 @@ class LibnameConan(ConanFile):
     author = "ulrich eck (forked on github)"
     license = "MIT"
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt", "patches/macos_jsonhpp_fix.diff"]
+    exports_sources = ["patches/macos_jsonhpp_fix.diff"]
 
     # Options may need to change depending on the packaged library.
     settings = "os", "arch", "compiler", "build_type"
@@ -74,7 +74,7 @@ class LibnameConan(ConanFile):
         "shared": False,
         "build_plugins_static": False,
         "fPIC": True,
-        "with_assimpimporter": True,
+        "with_assimpimporter": False,
         "with_ddsimporter": False,
         "with_devilimageimporter": False,
         "with_drflacaudioimporter": False,
@@ -159,17 +159,19 @@ class LibnameConan(ConanFile):
         tc.variables["Corrade_ROOT"] = corrade_root.replace("\\", "/")
         magnum_root = self.dependencies["magnum"].package_folder
         tc.variables["Magnum_ROOT"] = magnum_root.replace("\\", "/")
-        assimp_root = self.dependencies["assimp"].package_folder
-        tc.variables["Assimp_ROOT"] = assimp_root.replace("\\", "/")
+        if self.options.with_assimpimporter:
+            assimp_root = self.dependencies["assimp"].package_folder
+            tc.variables["Assimp_ROOT"] = assimp_root.replace("\\", "/")
 
         tc.generate()
 
         deps = CMakeDeps(self)
         deps.set_property("magnum", "cmake_find_mode", "none")
         deps.set_property("corrade", "cmake_find_mode", "none")
-        deps.set_property("assimp", "cmake_find_mode", "module")
-        deps.set_property("assimp", "cmake_file_name", "Assimp")
-        deps.set_property("assimp", "cmake_target_name", "Assimp::Assimp")
+        if self.options.with_assimpimporter:
+            deps.set_property("assimp", "cmake_find_mode", "module")
+            deps.set_property("assimp", "cmake_file_name", "Assimp")
+            deps.set_property("assimp", "cmake_target_name", "Assimp::Assimp")
         deps.generate()
 
     def layout(self):
