@@ -8,7 +8,8 @@
 int main() {
     const Magnum::Trade::MeshData sphere = Magnum::Primitives::icosphereSolid(4);
 
-    Corrade::Utility::Debug() << "Success";
+    Corrade::Utility::Debug() << "Magnum Plugins package found, test mesh has"
+        << sphere.vertexCount() << "vertices";
 
     return EXIT_SUCCESS;
 }

@@ -25,18 +25,12 @@ class TestPackageConan(ConanFile):
         tc.variables["Magnum_ROOT"] = magnum_root.replace("\\", "/")
         magnum_plugins_root = self.dependencies["magnum-plugins"].package_folder
         tc.variables["MagnumPlugins_ROOT"] = magnum_plugins_root.replace("\\", "/")
-        assimp_root = self.dependencies["assimp"].package_folder
-        tc.variables["Assimp_ROOT"] = assimp_root.replace("\\", "/")
-        self.output.info("Assimp_ROOT: {}".format(assimp_root))
         tc.generate()
 
         deps = CMakeDeps(self)
         deps.set_property("corrade", "cmake_find_mode", "none")
         deps.set_property("magnum", "cmake_find_mode", "none")
         deps.set_property("magnum-plugins", "cmake_find_mode", "none")
-        deps.set_property("assimp", "cmake_find_mode", "module")
-        deps.set_property("assimp", "cmake_file_name", "Assimp")
-        deps.set_property("assimp", "cmake_target_name", "Assimp::Assimp")
         deps.generate()
 
     def build(self):

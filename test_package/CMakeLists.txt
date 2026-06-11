@@ -9,13 +9,13 @@ message(STATUS "Added CMAKE_MODULE_PATH: ${MagnumPlugins_ROOT}")
 set(CMAKE_MODULE_PATH "${Magnum_ROOT}/share/cmake/Magnum" ${CMAKE_MODULE_PATH})
 message(STATUS "Added CMAKE_MODULE_PATH: ${Magnum_ROOT}")
 find_package(Magnum REQUIRED GL Shaders Primitives MeshTools Trade)
-find_package(MagnumPlugins REQUIRED AssimpImporter)
+find_package(MagnumPlugins REQUIRED)
 set_directory_properties(PROPERTIES CORRADE_USE_PEDANTIC_FLAGS ON)
 
 
 add_executable(${PROJECT_NAME} test_package.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE Magnum::GL Magnum::Shaders Magnum::Trade
-    Magnum::Primitives Magnum::MeshTools MagnumPlugins::AssimpImporter)
+    Magnum::Primitives Magnum::MeshTools)
 
 set_target_properties(${PROJECT_NAME} 
     PROPERTIES 
